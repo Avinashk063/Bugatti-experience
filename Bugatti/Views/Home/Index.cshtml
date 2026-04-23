@@ -1,0 +1,250 @@
+@{
+    ViewData["Title"] = "Bugatti Experience";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+}
+
+<!-- Loading Screen -->
+<div id="loadingScreen">
+    <div class="loader-content">
+        <div class="bugatti-logo">BUGATTI</div>
+        <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+        <div class="loader-percent" id="loaderPercent">0%</div>
+    </div>
+</div>
+
+<!-- Nav -->
+<nav class="site-nav" id="siteNav">
+    <a class="nav-brand" asp-area="" asp-controller="Home" asp-action="Index">BUGATTI</a>
+    <ul class="nav-links">
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#aerodynamics">Aerodynamics</a></li>
+        <li><a href="#speed">Engineering</a></li>
+        <li><a href="#contact" class="nav-cta">Configure</a></li>
+    </ul>
+</nav>
+
+<!-- Global Canvas Background -->
+<canvas id="frameCanvas"></canvas>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-overlay">
+        <div class="hero-badge">LIMITED EDITION</div>
+        <h1 class="hero-title">BUGATTI<br><span>DIVO</span></h1>
+        <p class="hero-sub">1,500 HP &nbsp;·&nbsp; W16 Quad-Turbo &nbsp;·&nbsp; 40 Units Only</p>
+        <div class="hero-scroll-hint">
+            <span>Scroll to Experience</span>
+            <div class="scroll-line"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Specs strip -->
+<section class="specs-strip">
+    <div class="spec-item">
+        <span class="spec-num">1,500</span>
+        <span class="spec-label">Horsepower</span>
+    </div>
+    <div class="spec-divider"></div>
+    <div class="spec-item">
+        <span class="spec-num">2.4s</span>
+        <span class="spec-label">0 – 100 km/h</span>
+    </div>
+    <div class="spec-divider"></div>
+    <div class="spec-item">
+        <span class="spec-num">380<small>km/h</small></span>
+        <span class="spec-label">Top Speed</span>
+    </div>
+    <div class="spec-divider"></div>
+    <div class="spec-item">
+        <span class="spec-num">40</span>
+        <span class="spec-label">Units Produced</span>
+    </div>
+</section>
+
+<!-- Feature sections -->
+<section class="feature-section feature-section--alt" id="design">
+    <div class="feature-bg feature-bg--accent"></div>
+    <div class="feature-visual reveal-left">
+        <div class="stat-ring">
+            <svg viewBox="0 0 200 200" class="ring-svg">
+                <circle cx="100" cy="100" r="88" class="ring-bg" />
+                <circle cx="100" cy="100" r="88" class="ring-fill" style="stroke-dasharray: 553; stroke-dashoffset: 160; filter: drop-shadow(0 0 8px rgba(201,168,76,0.6)); stroke: var(--bugatti-gold);" />
+            </svg>
+            <div class="ring-label">Carbon Fiber Body</div>
+        </div>
+    </div>
+    <div class="feature-content reveal-right">
+        <p class="feature-tag">DESIGN</p>
+        <h2>Form Follows<br>Performance</h2>
+        <p class="feature-desc">
+            The Divo's striking profile is dictated by the need for superior cooling and downforce. 
+            Every line and intake serves a critical aerodynamic purpose, wrapped in exposed carbon fiber.
+        </p>
+        <div class="feature-stat">
+            <span class="fstat-num">100<small>%</small></span>
+            <span class="fstat-label">Bespoke Exterior</span>
+        </div>
+    </div>
+</section>
+
+<section class="feature-section" id="aerodynamics">
+    <div class="feature-bg feature-bg--dark"></div>
+    <div class="feature-content reveal-left">
+        <p class="feature-tag">AERODYNAMICS</p>
+        <h2>Unmatched<br>Downforce</h2>
+        <p class="feature-desc">
+            The Divo generates 456 kg of downforce at top speed — 90 kg more than the Chiron.
+            Every surface is sculpted in the wind tunnel to achieve perfect aerodynamic balance.
+        </p>
+        <div class="feature-stat">
+            <span class="fstat-num">456<small>kg</small></span>
+            <span class="fstat-label">Downforce at VMax</span>
+        </div>
+    </div>
+    <div class="feature-visual reveal-right">
+        <div class="stat-ring">
+            <svg viewBox="0 0 200 200" class="ring-svg">
+                <circle cx="100" cy="100" r="88" class="ring-bg" />
+                <circle cx="100" cy="100" r="88" class="ring-fill" id="ring1" />
+            </svg>
+            <div class="ring-label">Aero Efficiency</div>
+        </div>
+    </div>
+</section>
+
+<section class="feature-section feature-section--alt" id="performance">
+    <div class="feature-bg feature-bg--accent"></div>
+    <div class="feature-visual reveal-left">
+        <div class="perf-grid">
+            <div class="perf-bar-wrap" data-label="Power" data-pct="95">
+                <div class="perf-bar-label">Power</div>
+                <div class="perf-bar-track"><div class="perf-bar-fill"></div></div>
+                <div class="perf-bar-val">1500 HP</div>
+            </div>
+            <div class="perf-bar-wrap" data-label="Torque" data-pct="88">
+                <div class="perf-bar-label">Torque</div>
+                <div class="perf-bar-track"><div class="perf-bar-fill"></div></div>
+                <div class="perf-bar-val">1600 Nm</div>
+            </div>
+            <div class="perf-bar-wrap" data-label="Agility" data-pct="97">
+                <div class="perf-bar-label">Agility</div>
+                <div class="perf-bar-track"><div class="perf-bar-fill"></div></div>
+                <div class="perf-bar-val">Track Tuned</div>
+            </div>
+            <div class="perf-bar-wrap" data-label="Braking" data-pct="92">
+                <div class="perf-bar-label">Braking</div>
+                <div class="perf-bar-track"><div class="perf-bar-fill"></div></div>
+                <div class="perf-bar-val">Carbon Ceramic</div>
+            </div>
+        </div>
+    </div>
+    <div class="feature-content reveal-right">
+        <p class="feature-tag">PERFORMANCE</p>
+        <h2>Extreme<br>Performance</h2>
+        <p class="feature-desc">
+            The 8.0-litre W16 engine with four turbochargers delivers 1,500 PS and 1,600 Nm of torque.
+            Power goes directly to all four wheels through a 7-speed dual-clutch DSG gearbox.
+        </p>
+        <div class="feature-stat">
+            <span class="fstat-num">8.0<small>L</small></span>
+            <span class="fstat-label">W16 Quad-Turbo Engine</span>
+        </div>
+    </div>
+</section>
+
+<section class="feature-section" id="speed">
+    <div class="feature-bg feature-bg--dark"></div>
+    <div class="feature-content reveal-left">
+        <p class="feature-tag">ENGINEERING</p>
+        <h2>Engineered<br>for Speed</h2>
+        <p class="feature-desc">
+            The Divo is built on a carbon fibre monocoque chassis and weighs just 1,995 kg.
+            40 kg lighter than the Chiron thanks to an entirely new body optimised for the track.
+        </p>
+        <div class="feature-stat">
+            <span class="fstat-num">1,995<small>kg</small></span>
+            <span class="fstat-label">Dry Weight</span>
+        </div>
+    </div>
+    <div class="feature-visual reveal-right">
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>2018</strong> — Divo revealed at The Quail</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>2019</strong> — Production begins in Molsheim</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>2020</strong> — All 40 units delivered</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-text"><strong>€5M</strong> — Base price per unit</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="feature-section feature-section--alt" id="craftsmanship">
+    <div class="feature-bg feature-bg--accent"></div>
+    <div class="feature-visual reveal-left">
+         <div class="perf-grid">
+            <div class="perf-bar-wrap" data-label="Assembly" data-pct="100">
+                <div class="perf-bar-label">Hand Assembly</div>
+                <div class="perf-bar-track"><div class="perf-bar-fill" style="background: linear-gradient(90deg, var(--bugatti-gold), #e0cc80);"></div></div>
+                <div class="perf-bar-val">Molsheim</div>
+            </div>
+            <div class="perf-bar-wrap" data-label="Materials" data-pct="100">
+                <div class="perf-bar-label">Materials</div>
+                <div class="perf-bar-track"><div class="perf-bar-fill" style="background: linear-gradient(90deg, var(--bugatti-silver), #ffffff);"></div></div>
+                <div class="perf-bar-val">Alcantara & Carbon</div>
+            </div>
+         </div>
+    </div>
+    <div class="feature-content reveal-right">
+        <p class="feature-tag" style="color: var(--bugatti-gold);">CRAFTSMANSHIP</p>
+        <h2>Molsheim<br>Atelier</h2>
+        <p class="feature-desc">
+            Hand-assembled at the Bugatti Atelier in Molsheim, France. 
+            The Divo features an exclusive asymmetric interior design with specially developed Alcantara and Divo Racing Blue accents.
+        </p>
+        <div class="feature-stat">
+            <span class="fstat-num">1<small>of</small>40</span>
+            <span class="fstat-label">Highly Customized</span>
+        </div>
+    </div>
+</section>
+
+<!-- CTA / Footer -->
+<section class="cta-section" id="contact">
+    <div class="cta-content">
+        <p class="cta-tag">THE DIVO AWAITS</p>
+        <h2>Beyond Every Limit</h2>
+        <p>Experience automotive perfection. Bespoke configuration available by appointment.</p>
+        <a href="#" class="btn-primary-custom">Request Information</a>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <span class="footer-brand">BUGATTI</span>
+        <span>&copy; 2026 Bugatti Automobiles S.A.S. — New Delhi, India</span>
+        <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+    </div>
+</footer>
+
+@section Scripts {
+    <script src="~/js/scrollAnimation.js" asp-append-version="true"></script>
+}
