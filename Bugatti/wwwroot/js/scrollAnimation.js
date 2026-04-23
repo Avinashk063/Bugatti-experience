@@ -5,20 +5,31 @@
 gsap.registerPlugin(ScrollTrigger);
 
 const frameCount = 79;
+const royalFrameCount = 80;
 let imagesLoaded = 0;
 
 const currentFrame = index =>
     `/frames/Bugatti_Divo_performance_202604222325_${(index + 1).toString().padStart(3, '0')}.jpg`;
+const currentRoyalFrame = index =>
+    `/Royal/Royal_${index.toString().padStart(3, '0')}.jpg`;
 
 const images = [];
+const royalImages = [];
 const canvas = document.getElementById('frameCanvas');
 const ctx = canvas.getContext('2d');
+const royalCanvas = document.getElementById('royalCanvas');
+const royalCtx = royalCanvas ? royalCanvas.getContext('2d') : null;
 
 ctx.imageSmoothingEnabled = true;
 ctx.imageSmoothingQuality = 'high';
+if (royalCtx) {
+    royalCtx.imageSmoothingEnabled = true;
+    royalCtx.imageSmoothingQuality = 'high';
+}
 
 // ── MUST be declared before resizeCanvas is called ──
 const bugatti = { frame: 0 };
+const royal = { frame: 0 };
 
 // CSS pixel dimensions (separate from DPR-scaled canvas buffer)
 let cssW = window.innerWidth;
@@ -37,6 +48,15 @@ function resizeCanvas() {
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     render(); // safe — render() guards against missing image
+
+    if (royalCanvas && royalCtx) {
+        royalCanvas.width = cssW * dpr;
+        royalCanvas.height = cssH * dpr;
+        royalCanvas.style.width = cssW + 'px';
+        royalCanvas.style.height = cssH + 'px';
+        royalCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        renderRoyal();
+    }
 }
 
 resizeCanvas();
@@ -59,20 +79,39 @@ function render() {
     ctx.drawImage(img, ox, oy, drawW, drawH);
 }
 
+function renderRoyal() {
+    if (!royalCtx) return;
+    const img = royalImages[Math.round(royal.frame)];
+    if (!img || !img.complete || !img.naturalWidth) return;
+
+    royalCtx.clearRect(0, 0, cssW, cssH);
+
+    const scale = Math.max(cssW / img.naturalWidth, cssH / img.naturalHeight);
+    const drawW = img.naturalWidth * scale;
+    const drawH = img.naturalHeight * scale;
+    const ox = (cssW - drawW) / 2;
+    const oy = (cssH - drawH) / 2;
+
+    royalCtx.drawImage(img, ox, oy, drawW, drawH);
+}
+
 // ── Loading screen elements ───────────────────
 const loaderBar = document.getElementById('loaderBar');
 const loaderPercent = document.getElementById('loaderPercent');
 const loadingScreen = document.getElementById('loadingScreen');
 
 // ── Image preload with progress ───────────────
+const totalImagesToLoad = frameCount + royalFrameCount;
+
 function onImageLoad() {
     imagesLoaded++;
-    const pct = Math.round((imagesLoaded / frameCount) * 100);
+    const pct = Math.round((imagesLoaded / totalImagesToLoad) * 100);
     if (loaderBar) loaderBar.style.width = pct + '%';
     if (loaderPercent) loaderPercent.textContent = pct + '%';
 
-    if (imagesLoaded === frameCount) {
+    if (imagesLoaded === totalImagesToLoad) {
         render(); // draw first frame
+        renderRoyal();
         gsap.to(loadingScreen, {
             opacity: 0,
             duration: 0.8,
@@ -94,6 +133,14 @@ for (let i = 0; i < frameCount; i++) {
     images.push(img);
 }
 
+for (let i = 0; i < royalFrameCount; i++) {
+    const img = new Image();
+    img.src = currentRoyalFrame(i);
+    img.onload = onImageLoad;
+    img.onerror = onImageLoad;
+    royalImages.push(img);
+}
+
 // ── GSAP scroll animation ─────────────────────
 function initScrollAnimation() {
 
@@ -111,23 +158,23 @@ function initScrollAnimation() {
         onUpdate: render
     });
 
-    // Hero overlay — fade in, then fade out on scroll
-    gsap.fromTo('.hero-overlay',
-        { opacity: 0, y: 40 },
-        {
-            opacity: 1, y: 0,
-            duration: 1,
-            ease: 'power2.out'
-        }
-    );
+    // Hero overlay — initial fade in on children to avoid conflict with scroll scrub
+    gsap.from('.hero-overlay > *', {
+        opacity: 0, 
+        y: 40,
+        stagger: 0.15,
+        duration: 1,
+        ease: 'power2.out'
+    });
 
+    // Hero overlay — scrub out on scroll
     gsap.to('.hero-overlay', {
         opacity: 0,
         y: -60,
         scrollTrigger: {
             trigger: '.hero',
-            start: '40% top',
-            end: '70% top',
+            start: 'top top',
+            end: 'bottom top',
             scrub: true
         }
     });
@@ -243,6 +290,34 @@ function initScrollAnimation() {
             toggleActions: 'play none none reverse'
         }
     });
+
+    // Royal Animation
+    if (document.querySelector('#royal-trigger-zone')) {
+        // Fade in the Royal canvas smoothly when reaching the zone
+        gsap.to('#royalCanvas', {
+            opacity: 1,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '#royal-trigger-zone',
+                start: 'top 50%', // start fading in when zone reaches middle of screen
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Scrub through Royal frames
+        gsap.to(royal, {
+            frame: royalFrameCount - 1,
+            snap: 'frame',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '#royal-trigger-zone',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1.5
+            },
+            onUpdate: renderRoyal
+        });
+    }
 }
 
 // ── Nav scroll glass effect ───────────────────
