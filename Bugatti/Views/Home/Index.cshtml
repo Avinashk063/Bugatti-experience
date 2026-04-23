@@ -30,8 +30,9 @@
     </ul>
 </nav>
 
-<!-- Global Canvas Background -->
-<canvas id="frameCanvas"></canvas>
+<!-- Global Canvas Backgrounds -->
+<canvas id="frameCanvas" style="z-index: -2;"></canvas>
+<canvas id="royalCanvas" style="z-index: -1; opacity: 0; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; background: #000;"></canvas>
 
 <!-- Hero -->
 <section class="hero">
@@ -226,6 +227,78 @@
         </div>
     </div>
 </section>
+
+<div id="royal-trigger-zone">
+    <section class="feature-section" id="royal-intro">
+        <div class="feature-bg feature-bg--dark"></div>
+        <div class="feature-content reveal-left">
+            <p class="feature-tag" style="color: var(--bugatti-gold);">ROYAL EDITION</p>
+            <h2>Bespoke<br>Masterpiece</h2>
+            <p class="feature-desc">
+                The ultimate expression of individuality. Every Royal edition is crafted to perfection, matching unparalleled performance with unprecedented luxury in a breathtaking visual display.
+            </p>
+        </div>
+    </section>
+
+    <section class="feature-section feature-section--alt" id="royal-design">
+        <div class="feature-bg feature-bg--accent"></div>
+        <div class="feature-content reveal-right">
+            <p class="feature-tag" style="color: var(--bugatti-gold);">EXCLUSIVE DETAILS</p>
+            <h2>Elevated<br>Aesthetics</h2>
+            <p class="feature-desc">
+                From the specially curated exterior finish to the hand-stitched interior, every element reflects a royal lineage, designed for those who demand nothing but the absolute pinnacle of luxury.
+            </p>
+        </div>
+    </section>
+
+    <section class="feature-section" id="royal-materials">
+        <div class="feature-bg feature-bg--dark"></div>
+        <div class="feature-content reveal-left">
+            <p class="feature-tag" style="color: var(--bugatti-gold);">MATERIALS</p>
+            <h2>Exquisite<br>Craftsmanship</h2>
+            <p class="feature-desc">
+                Every surface is an exploration of the finest materials on earth. Precision-milled titanium, flawless carbon fiber, and unblemished leathers are brought together in perfect harmony.
+            </p>
+        </div>
+    </section>
+
+    <section class="feature-section feature-section--alt" id="royal-exclusivity">
+        <div class="feature-bg feature-bg--accent"></div>
+        <div class="feature-content reveal-right">
+            <p class="feature-tag" style="color: var(--bugatti-gold);">RARITY</p>
+            <h2>Beyond<br>Rare</h2>
+            <p class="feature-desc">
+                Conceived for the absolute elite, the Royal Edition is not simply built—it is commissioned. A strict limitation ensures it remains one of the most exclusive hyper sports cars ever created.
+            </p>
+        </div>
+    </section>
+
+    <section class="feature-section" id="royal-legacy">
+        <div class="feature-bg feature-bg--dark"></div>
+        <div class="feature-content reveal-left">
+            <p class="feature-tag" style="color: var(--bugatti-gold);">LEGACY</p>
+            <h2>A Timeless<br>Icon</h2>
+            <p class="feature-desc">
+                Embracing the heritage of Bugatti's most legendary creations, the Royal Edition stands as a modern testament to uncompromising engineering and artistic vision.
+            </p>
+        </div>
+    </section>
+    <section class="feature-section feature-section--split" id="track-performance">
+    
+        <!-- Background Layer -->
+        <div class="feature-bg feature-bg--video"></div>
+
+        <!-- Content -->
+        <div class="feature-content reveal-right">
+            <p class="feature-tag">PERFORMANCE</p>
+            <h2>Engineered<br>for Speed</h2>
+            <p class="feature-desc">
+                Designed to dominate the track, this machine blends cutting-edge aerodynamics with raw power, delivering an adrenaline-fueled driving experience like no other.
+            </p>
+        </div>
+
+    </section>
+</div>
 
 <!-- CTA / Footer -->
 <section class="cta-section" id="contact">
