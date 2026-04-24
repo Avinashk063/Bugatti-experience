@@ -675,3 +675,44 @@ body {
     }
     /* mobile: collapse nav */
 }
+
+/* Desktop */
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+/* Hide toggle on desktop */
+.nav-toggle {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .nav-toggle {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: white;
+        margin-left: auto;
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background: #000;
+        padding: 20px;
+        border-radius: 10px;
+        width: 200px;
+    }
+
+        .nav-links.active {
+            display: flex;
+        }
+}

@@ -22,7 +22,8 @@
 <!-- Nav -->
 <nav class="site-nav" id="siteNav">
     <a class="nav-brand" asp-area="" asp-controller="Home" asp-action="Index">BUGATTI</a>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle">☰</button>
+    <ul class="nav-links" id="navLinks">
         <li><a href="#performance">Performance</a></li>
         <li><a href="#aerodynamics">Aerodynamics</a></li>
         <li><a href="#speed">Engineering</a></li>
@@ -321,3 +322,12 @@
 @section Scripts {
     <script src="~/js/scrollAnimation.js" asp-append-version="true"></script>
 }
+
+<script>
+    const toggle = document.getElementById("navToggle");
+    const nav = document.getElementById("navLinks");
+
+    toggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    });
+</script>

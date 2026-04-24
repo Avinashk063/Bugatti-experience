@@ -1,0 +1,38 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: Pipeline
+      source: Bugatti-CI
+      trigger: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: none
+
+- download: Pipeline
+  artifact: drop
+
+- script: |
+    git config --global user.email "pipeline@nexeratech.us"
+    git config --global user.name "NexEra Pipeline"
+
+    git clone https://$(GITHUB_TOKEN)@github.com/Avinashk063/Bugatti-experience.git
+
+    cd Bugatti-experience
+    git checkout master
+
+    rm -rf *
+
+    cp -r $(Pipeline.Workspace)/Pipeline/drop/* .
+
+    touch .nojekyll
+
+    git add .
+    git commit -m "Deploy from Azure Pipeline"
+    git push origin master --force
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
+  displayName: 'Deploy to master Branch'
